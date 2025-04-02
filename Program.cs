@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Media;
+using System.Threading;
+
 internal class Program
 {
     private static void Main(string[] args)
@@ -8,6 +10,8 @@ internal class Program
         String name = "";
         int Help;
         int questions;
+
+        Console.ForegroundColor = ConsoleColor.Cyan; // Set initial color
 
         //ASCII Art
         Console.WriteLine("" +
@@ -37,38 +41,45 @@ internal class Program
             }
         }
         Console.WriteLine($"Welcome,{name}! Let's enhance your Cyber Security awareness.");
-        Console.WriteLine("How may I assist you today?");
 
-        Console.WriteLine("1.) Answer most asked Cyber-Security questions.");
-        Console.WriteLine("2.) I have a Personalized question.");
-
-
-        Help = Convert.ToInt32(Console.ReadLine());
+        
         while (true)  // Main Menu Loop
         {
+            Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("\nHow may I assist you today?");
             Console.WriteLine("1.) Answer most asked Cyber-Security questions.");
             Console.WriteLine("2.) I have a personalized question.");
-            Console.WriteLine("3.) Exit");
-            Console.Write("Enter your choice: ");
-            if (!int.TryParse(Console.ReadLine(), out Help) || Help < 1 || Help > 3)
+            Console.WriteLine("3.) Check password strengh");
+            Console.WriteLine("4.) Exit");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write("\nEnter your choice: ");
+
+            if (!int.TryParse(Console.ReadLine(), out Help) || Help < 1 || Help > 4)
             {
-                Console.WriteLine("Invalid input. Please enter a valid option (1, 2, or 3).");
+                Console.WriteLine("Invalid input. Please enter a valid option (1, 2, 3, or 4).");
                 continue;
             }
-            if (Help == 3)
+            if (Help == 4)
             {
-                Console.WriteLine($"Goodbye, {name}! Stay safe online. 🔒");
+                Console.WriteLine($"Goodbye, {name}! Stay safe online. ");
                 break;
             }
            
+            if (Help == 3)
+            {
+                CheckPasswordStrength();
+            }
+
             if (Help == 1) // Predefined Questions
             {
+                Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine("\nChoose a question:");
                 Console.WriteLine("1.) How can I create a strong password?");
                 Console.WriteLine("2.) How can I tell if an email is a phishing scam?");
                 Console.WriteLine("3.) How can I protect myself from hackers?");
                 Console.WriteLine("4.) Go back to the main menu.");
+                Console.ForegroundColor = ConsoleColor.White;
+
                 Console.Write("Enter your choice: ");
                 if (!int.TryParse(Console.ReadLine(), out questions) || questions < 1 || questions > 4)
                 {
@@ -100,9 +111,9 @@ internal class Program
                 }
             }
 
-            else if (help == 2) // Personalized Questions
+            else if (Help == 2) // Personalized Questions
             {
-                Console.WriteLine($"\nHow may I assist you, {name}? (Type 'exit' to return to the main menu)");
+                Console.WriteLine($"\nHow may I assist you? (Type 'exit' to return to the main menu)");
 
                 while (true)
                 {
@@ -119,7 +130,30 @@ internal class Program
                     Console.WriteLine($"Bot: {response}\n");
                 }
             }
+
+            // Function to simulate typing animation
+            static void SimulateTyping(string message)
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.Write("Bot: ");
+                foreach (char c in message)
+                {
+                    Console.Write(c);
+                    Thread.Sleep(25); // Typing effect speed
+                }
+                Console.WriteLine("\n");
+                Console.ResetColor();
+            }
+
+            // Function to display error messages in red
+            static void ShowError(string message)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine(message);
+                Console.ResetColor();
+            }
         }
+        
     }
 
     static string GetCyberSecurityAnswer(string question)
@@ -149,4 +183,24 @@ internal class Program
             return "Unfortunately, I'm not sure about that, but always be cautious online! 😊";
         }
     }
+
+    static void CheckPasswordStrength()
+    {
+        Console.Write("\nEnter a password to check its strength: ");
+        string password = Console.ReadLine();
+
+        if (password.Length < 8 || !password.Any(char.IsUpper) || !password.Any(char.IsLower) ||
+            !password.Any(char.IsDigit) || !password.Any(ch => "!@#$%^&*()".Contains(ch)))
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("⚠️ Weak Password! Use at least 8 characters, mix uppercase, lowercase, numbers, and symbols.");
+        }
+        else
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("✅ Strong Password!");
+        }
+        Console.ResetColor();
+    }
+
 }
