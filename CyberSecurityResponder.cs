@@ -27,18 +27,21 @@ namespace ConsoleApp6
             "Avoid public Wi-Fi for sensitive transactions. to avoid getting hacked",
             "Try to monitor your accounts for suspicious activity to avoid being hacked"
        };
+     
         public static string GetAnswer(string question, ref string lastTopic)
         {
             question = question.ToLower();
 
             if (question.Contains("phishing"))
             {
+                lastTopic = "phishing";
                 Random rand = new Random();
                 int index = rand.Next(phishingtips.Length);
                 return phishingtips[index];
             }
-            if (question.Contains("password"))
+            else if (question.Contains("password"))
             {
+                lastTopic = "password";
                 return "A strong password should be at least 12-16 characters long. Use uppercase, lowercase, numbers, and special symbols.\n" +
                        "Avoid using common words or predictable patterns. Consider using a password manager.";
             }
@@ -63,6 +66,7 @@ namespace ConsoleApp6
             }
             else if (question.Contains("vpn") || question.Contains("privacy") || question.Contains("anonymous"))
             {
+                lastTopic = "privacy";
                 return "A VPN (Virtual Private Network) encrypts your internet connection, enhancing privacy.\n" +
                        "Use a VPN when accessing public Wi-Fi to protect your data from hackers.";
             }
@@ -127,6 +131,11 @@ namespace ConsoleApp6
                        "It can be used legally for privacy reasons but is also a hub for illegal activities.\n" +
                        "Never enter personal information on unknown sites.";
             }
+            else if (question.Contains("cyberattack"))
+            {
+                lastTopic = "cyberattack";
+                return "A cyber attack is when someone uses computers or the internet to illegally access, damage, or steal information from another person or organization’s system.";
+            }
             else if (question.Contains("social engineering") || question.Contains("manipulation"))
             {
                 return "Social engineering tricks people into revealing sensitive info (e.g., pretending to be tech support).\n" +
@@ -147,21 +156,21 @@ namespace ConsoleApp6
 
                     //password
                     case "password":
-                        return "🏠 Real-Life Example: Password as a House Key\r\nImagine you live in a house that has a locked door. Only you and a few trusted people have the key to get inside. That key is like your password in cybersecurity." +
-                            "📍Scenario:" +
-                            "🔒 The Lock = Login Page" +
-                            "The front door has a lock, just like a website or app has a login screen." +
+                        return "🏠 Real-Life Example: Password as a House Key\r\nImagine you live in a house that has a locked door. Only you and a few trusted people have the key to get inside. That key is like your password in cybersecurity.\n" +
+                            "📍Scenario:\n" +
+                            "🔒 The Lock = Login Page\n" +
+                            "The front door has a lock, just like a website or app has a login screen.\n" +
                             "🔑 The Key = Password" +
                             "You need the correct key (your password) to unlock the door (gain access to your account)" +
                             "👮‍♂️ The Security Guard = The Server" +
-                            "Inside your door, there's a guard who checks your key every time. But the guard doesn’t have a list of real keys; instead, they have a special code (a hash of your password) to check against." +
+                            "Inside your door, there's a guard who checks your key every time. But the guard doesn’t have a list of real keys; instead, they have a special code (a hash of your password) to check against.\n" +
                             "🛠️ What Happens When You Try to Enter:" +
-                            "1. You walk to the door and insert your key (you type your password)." +
+                            "1. You walk to the door and insert your key (you type your password).\n" +
                             "2. The lock checks if the key fits (the system compares it with the stored hash)." +
-                            "3. If the key fits, the door opens (you are granted access)." +
-                            "4. If not, the door stays locked." +
-                            "🧠 How Do You Stay Safe?" +
-                            "Just like you:" +
+                            "3. If the key fits, the door opens (you are granted access).\n" +
+                            "4. If not, the door stays locked.\n" +
+                            "🧠 How Do You Stay Safe?\n" +
+                            "Just like you:\n" +
                             "Use a unique and complicated key (strong password)." +
                             "Change your lock if you think your key was stolen (reset your password)." +
                             "Install a security alarm (use multi-factor authentication like OTPs or fingerprint).";
