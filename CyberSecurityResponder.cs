@@ -8,30 +8,45 @@ namespace ConsoleApp6
 {
     public static class CyberSecurityResponses
     {
+        private static readonly string[] phishingtips = new string[]
+        {
+        "Check the sender’s email address carefully — scammers often use fake domains.",
+        "Avoid clicking suspicious links — hover to preview before clicking.",
+        "Phishing emails often contain bad grammar or spelling mistakes.",
+        "Urgent language like 'Act Now!' is often used to create panic — be cautious.",
+        "Never share sensitive info like passwords or credit card numbers via email.",
+        "Don’t open unexpected attachments — they might carry malware.",
+        "Use two-factor authentication for extra security.",
+        "If something feels suspicious, report the email and don't respond."
+        };
+
+        private static readonly string[] hackertips = new string[]
+       {
+            "Keep your software and OS updated to ensure your security is able to handle threats",
+            "To protect yourself from hacker Use two-factor authentication (2FA)",
+            "Avoid public Wi-Fi for sensitive transactions. to avoid getting hacked",
+            "Try to monitor your accounts for suspicious activity to avoid being hacked"
+       };
         public static string GetAnswer(string question)
         {
             question = question.ToLower();
 
+            if (question.Contains("phishing"))
+            {
+                Random rand = new Random();
+                int index = rand.Next(phishingtips.Length);
+                return phishingtips[index];
+            }
             if (question.Contains("password"))
             {
                 return "A strong password should be at least 12-16 characters long. Use uppercase, lowercase, numbers, and special symbols.\n" +
                        "Avoid using common words or predictable patterns. Consider using a password manager.";
             }
-            else if (question.Contains("phishing") || question.Contains("scam") || question.Contains("fraud"))
-            {
-                return "Phishing emails trick users into revealing personal information. Look out for:\n" +
-                       "- Urgent language (e.g., 'Your account will be closed!')\n" +
-                       "- Suspicious links (hover over links before clicking)\n" +
-                       "- Poor grammar or unfamiliar senders\n" +
-                       "Always verify emails by contacting the company directly.";
-            }
             else if (question.Contains("hackers") || question.Contains("cyber attack") || question.Contains("hacked"))
             {
-                return "To protect yourself from hackers:\n" +
-                       "- Keep your software and OS updated\n" +
-                       "- Use two-factor authentication (2FA)\n" +
-                       "- Avoid public Wi-Fi for sensitive transactions\n" +
-                       "- Monitor your accounts for suspicious activity";
+                Random rand = new Random();
+                int index = rand.Next(hackertips.Length);
+                return hackertips[index];
             }
             else if (question.Contains("firewall"))
             {
