@@ -6,8 +6,12 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp6
 {
+
     public static class CyberSecurityResponses
     {
+        
+
+
         private static readonly string[] phishingtips = new string[]
         {
         "Check the sender’s email address carefully — scammers often use fake domains.",
@@ -31,35 +35,30 @@ namespace ConsoleApp6
         private static string userName = "";
         private static string favoriteTopic = "";
 
+        private static string GetEmpatheticPrefix(string question)
+        {
+            if (question.Contains("worried") || question.Contains("scared") || question.Contains("afraid"))
+            {
+                return "It's completely understandable to feel that way. Online threats can be intimidating, but you're taking the right steps by learning more.\n\n";
+            }
+            else if (question.Contains("frustrated") || question.Contains("annoyed") || question.Contains("tired"))
+            {
+                return "I hear your frustration. Cybersecurity can feel overwhelming at times, but every step you take helps protect you more.\n\n";
+            }
+            else if (question.Contains("curious") || question.Contains("interested") || question.Contains("wondering"))
+            {
+                return "Great to see your curiosity! Learning about cybersecurity is a powerful way to stay safe.\n\n";
+            }
+
+            return "";
+        }
 
         public static string GetAnswer(string question, ref string lastTopic)
         {
             question = question.ToLower();
 
-           //stores user's name
-            if (question.StartsWith("i am"))
-            {
-                string[] parts = question.Split(' ');
-                if (parts.Length >= 3)
-                {
-                    userName = parts[^1]; // gets the last word
-                    return $"Nice to meet you, {userName}! What's your favorite cybersecurity topic?";
-                }
-            }
+            string empathy = GetEmpatheticPrefix(question);
 
-            // Store favorite topic
-            if (question.Contains("i'm interested in") || question.Contains("i am interested in"))
-            {
-                string[] keywords = { "phishing", "password", "privacy", "malware", "firewall", "ransomware" };
-                foreach (var topic in keywords)
-                {
-                    if (question.Contains(topic))
-                    {
-                        favoriteTopic = topic;
-                        return $"Great! I'll remember that you're interested in {favoriteTopic}. It's a crucial part of staying safe online. 🔐";
-                    }
-                }
-            }
 
             if (question.Contains("phishing"))
             {
@@ -70,28 +69,28 @@ namespace ConsoleApp6
                 string personalNote = !string.IsNullOrEmpty(favoriteTopic) && favoriteTopic == "phishing"
              ? $"\nBy the way {userName}, since you're interested in phishing, this might be extra useful!" :"";
 
-                return phishingtips[index] + personalNote ;
+                return empathy + phishingtips[index] ;
             }
             else if (question.Contains("password"))
             {
                 lastTopic = "password";
-                return "A strong password should be at least 12-16 characters long. Use uppercase, lowercase, numbers, and special symbols.\n" +
+                return empathy + "A strong password should be at least 12-16 characters long. Use uppercase, lowercase, numbers, and special symbols.\n" +
                        "Avoid using common words or predictable patterns. Consider using a password manager.";
             }
             else if (question.Contains("hackers") || question.Contains("cyber attack") || question.Contains("hacked"))
             {
                 Random rand = new Random();
                 int index = rand.Next(hackertips.Length);
-                return hackertips[index];
+                return empathy + hackertips[index];
             }
             else if (question.Contains("firewall"))
             {
-                return "A firewall acts as a barrier between your device and the internet, blocking unauthorized access.\n" +
+                return empathy + "A firewall acts as a barrier between your device and the internet, blocking unauthorized access.\n" +
                        "Ensure your firewall is enabled, whether it's built into Windows/macOS or provided by security software.";
             }
             else if (question.Contains("malware") || question.Contains("virus") || question.Contains("trojan") || question.Contains("spyware"))
             {
-                return "Malware (malicious software) includes viruses, ransomware, and spyware.\n" +
+                return empathy + "Malware (malicious software) includes viruses, ransomware, and spyware.\n" +
                        "Prevent malware by:\n" +
                        "- Avoiding downloads from unknown sources\n" +
                        "- Keeping antivirus software updated\n" +
@@ -100,12 +99,12 @@ namespace ConsoleApp6
             else if (question.Contains("vpn") || question.Contains("privacy") || question.Contains("anonymous"))
             {
                 lastTopic = "privacy";
-                return "A VPN (Virtual Private Network) encrypts your internet connection, enhancing privacy.\n" +
+                return empathy + "A VPN (Virtual Private Network) encrypts your internet connection, enhancing privacy.\n" +
                        "Use a VPN when accessing public Wi-Fi to protect your data from hackers.";
             }
             else if (question.Contains("data breach") || question.Contains("leak"))
             {
-                return "A data breach occurs when sensitive information is leaked online.\n" +
+                return empathy + "A data breach occurs when sensitive information is leaked online.\n" +
                        "If your data is compromised:\n" +
                        "- Change affected passwords immediately\n" +
                        "- Enable 2FA on important accounts\n" +
@@ -113,7 +112,7 @@ namespace ConsoleApp6
             }
             else if (question.Contains("ransomware"))
             {
-                return "Ransomware locks your files and demands payment to unlock them.\n" +
+                return empathy + "Ransomware locks your files and demands payment to unlock them.\n" +
                        "To prevent ransomware:\n" +
                        "- Regularly back up your data\n" +
                        "- Avoid clicking suspicious email links or attachments\n" +
@@ -121,26 +120,26 @@ namespace ConsoleApp6
             }
             else if (question.Contains("public wi-fi") || question.Contains("free wi-fi") || question.Contains("open network"))
             {
-                return "Public Wi-Fi is risky because hackers can intercept your data. Protect yourself by:\n" +
+                return empathy + "Public Wi-Fi is risky because hackers can intercept your data. Protect yourself by:\n" +
                        "- Using a VPN\n" +
                        "- Avoiding online banking or shopping\n" +
                        "- Disabling automatic Wi-Fi connections";
             }
             else if (question.Contains("2fa") || question.Contains("two-factor") || question.Contains("multi-factor"))
             {
-                return "Two-Factor Authentication (2FA) adds an extra security layer to your accounts.\n" +
+                return empathy + "Two-Factor Authentication (2FA) adds an extra security layer to your accounts.\n" +
                        "It requires a second form of verification, such as a one-time code sent to your phone or email.";
             }
             else if (question.Contains("ddos") || question.Contains("denial of service"))
             {
-                return "A DDoS (Distributed Denial of Service) attack floods a website with fake traffic to take it offline.\n" +
+                return empathy + "A DDoS (Distributed Denial of Service) attack floods a website with fake traffic to take it offline.\n" +
                        "Prevent DDoS attacks by using:\n" +
                        "- Cloud-based security services\n" +
                        "- Firewalls and anti-DDoS tools";
             }
             else if (question.Contains("identity theft") || question.Contains("stolen identity"))
             {
-                return "Identity theft occurs when someone uses your personal details for fraud.\n" +
+                return empathy + "Identity theft occurs when someone uses your personal details for fraud.\n" +
                        "Protect yourself by:\n" +
                        "- Not sharing personal info online\n" +
                        "- Monitoring bank and credit reports\n" +
@@ -148,30 +147,30 @@ namespace ConsoleApp6
             }
             else if (question.Contains("updates") || question.Contains("software update") || question.Contains("patch"))
             {
-                return "Always install software updates as soon as they are available.\n" +
+                return empathy + "Always install software updates as soon as they are available.\n" +
                        "Updates fix security vulnerabilities that hackers can exploit.";
             }
             else if (question.Contains("smartphone") || question.Contains("mobile security") || question.Contains("android") || question.Contains("iphone"))
             {
-                return "To keep your smartphone secure:\n" +
+                return empathy + "To keep your smartphone secure:\n" +
                        "- Install apps only from official stores (Google Play/App Store)\n" +
                        "- Avoid clicking on unknown links\n" +
                        "- Use fingerprint or face recognition instead of a simple PIN";
             }
             else if (question.Contains("dark web") || question.Contains("deep web"))
             {
-                return "The dark web is an encrypted part of the internet not indexed by search engines.\n" +
+                return empathy + "The dark web is an encrypted part of the internet not indexed by search engines.\n" +
                        "It can be used legally for privacy reasons but is also a hub for illegal activities.\n" +
                        "Never enter personal information on unknown sites.";
             }
             else if (question.Contains("cyberattack"))
             {
                 lastTopic = "cyberattack";
-                return "A cyber attack is when someone uses computers or the internet to illegally access, damage, or steal information from another person or organization’s system.";
+                return empathy + "A cyber attack is when someone uses computers or the internet to illegally access, damage, or steal information from another person or organization’s system.";
             }
             else if (question.Contains("social engineering") || question.Contains("manipulation"))
             {
-                return "Social engineering tricks people into revealing sensitive info (e.g., pretending to be tech support).\n" +
+                return empathy + "Social engineering tricks people into revealing sensitive info (e.g., pretending to be tech support).\n" +
                        "Always verify identities before sharing personal or financial details.";
             }
             else if (question.Contains("settings") || question.Contains("account"))
@@ -180,7 +179,7 @@ namespace ConsoleApp6
                     ? $"As someone interested in {favoriteTopic}, you might want to review the security settings on your accounts, {userName}."
                     : "Reviewing your security settings regularly helps keep your accounts safe.";
 
-                return reminder;
+                return empathy + reminder;
             }
 
             else if (question.Contains("tell me more") || question.Contains("explain") || question.Contains("more details") || question.Contains("understand"))

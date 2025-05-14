@@ -6,6 +6,7 @@ using ConsoleApp6;
 
 internal class Program
 {
+   
     public static void Main(string[] args)
     {
         //Declarations
