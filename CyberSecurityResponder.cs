@@ -27,17 +27,50 @@ namespace ConsoleApp6
             "Avoid public Wi-Fi for sensitive transactions. to avoid getting hacked",
             "Try to monitor your accounts for suspicious activity to avoid being hacked"
        };
-     
+
+        private static string userName = "";
+        private static string favoriteTopic = "";
+
+
         public static string GetAnswer(string question, ref string lastTopic)
         {
             question = question.ToLower();
+
+           //stores user's name
+            if (question.StartsWith("i am"))
+            {
+                string[] parts = question.Split(' ');
+                if (parts.Length >= 3)
+                {
+                    userName = parts[^1]; // gets the last word
+                    return $"Nice to meet you, {userName}! What's your favorite cybersecurity topic?";
+                }
+            }
+
+            // Store favorite topic
+            if (question.Contains("i'm interested in") || question.Contains("i am interested in"))
+            {
+                string[] keywords = { "phishing", "password", "privacy", "malware", "firewall", "ransomware" };
+                foreach (var topic in keywords)
+                {
+                    if (question.Contains(topic))
+                    {
+                        favoriteTopic = topic;
+                        return $"Great! I'll remember that you're interested in {favoriteTopic}. It's a crucial part of staying safe online. 🔐";
+                    }
+                }
+            }
 
             if (question.Contains("phishing"))
             {
                 lastTopic = "phishing";
                 Random rand = new Random();
                 int index = rand.Next(phishingtips.Length);
-                return phishingtips[index];
+
+                string personalNote = !string.IsNullOrEmpty(favoriteTopic) && favoriteTopic == "phishing"
+             ? $"\nBy the way {userName}, since you're interested in phishing, this might be extra useful!" :"";
+
+                return phishingtips[index] + personalNote ;
             }
             else if (question.Contains("password"))
             {
@@ -141,7 +174,16 @@ namespace ConsoleApp6
                 return "Social engineering tricks people into revealing sensitive info (e.g., pretending to be tech support).\n" +
                        "Always verify identities before sharing personal or financial details.";
             }
-            else if (question.Contains("tell me more") || question.Contains("explain") || question.Contains("more details"))
+            else if (question.Contains("settings") || question.Contains("account"))
+            {
+                string reminder = !string.IsNullOrEmpty(favoriteTopic)
+                    ? $"As someone interested in {favoriteTopic}, you might want to review the security settings on your accounts, {userName}."
+                    : "Reviewing your security settings regularly helps keep your accounts safe.";
+
+                return reminder;
+            }
+
+            else if (question.Contains("tell me more") || question.Contains("explain") || question.Contains("more details") || question.Contains("understand"))
 {               
                 //conversation flow
                 switch (lastTopic)
@@ -171,7 +213,7 @@ namespace ConsoleApp6
                             "4. If not, the door stays locked.\n" +
                             "🧠 How Do You Stay Safe?\n" +
                             "Just like you:\n" +
-                            "Use a unique and complicated key (strong password)." +
+                            "Use a unique and complicated key (strong password).\n" +
                             "Change your lock if you think your key was stolen (reset your password)." +
                             "Install a security alarm (use multi-factor authentication like OTPs or fingerprint).";
 
