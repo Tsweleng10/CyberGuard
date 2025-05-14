@@ -27,7 +27,7 @@ namespace ConsoleApp6
             "Avoid public Wi-Fi for sensitive transactions. to avoid getting hacked",
             "Try to monitor your accounts for suspicious activity to avoid being hacked"
        };
-        public static string GetAnswer(string question)
+        public static string GetAnswer(string question, ref string lastTopic)
         {
             question = question.ToLower();
 
@@ -132,6 +132,61 @@ namespace ConsoleApp6
                 return "Social engineering tricks people into revealing sensitive info (e.g., pretending to be tech support).\n" +
                        "Always verify identities before sharing personal or financial details.";
             }
+            else if (question.Contains("tell me more") || question.Contains("explain") || question.Contains("more details"))
+{               
+                //conversation flow
+                switch (lastTopic)
+                {
+                    //phishing
+                    case "phishing":
+                        return "Here's a Real-life example of phishing:" +
+                            "Imagine someone calls you pretending to be from your bank. They sound very official and say your account is locked. They ask you to “confirm” your bank card number and PIN to fix the problem." +
+                            "🧠 Cyber version:" +
+                            "You get an email that looks like it's from your bank, with their logo and everything, saying “Your account has been compromised, click here to verify.” But the link takes you to a fake website that steals your login info.";
+
+
+                    //password
+                    case "password":
+                        return "🏠 Real-Life Example: Password as a House Key\r\nImagine you live in a house that has a locked door. Only you and a few trusted people have the key to get inside. That key is like your password in cybersecurity." +
+                            "📍Scenario:" +
+                            "🔒 The Lock = Login Page" +
+                            "The front door has a lock, just like a website or app has a login screen." +
+                            "🔑 The Key = Password" +
+                            "You need the correct key (your password) to unlock the door (gain access to your account)" +
+                            "👮‍♂️ The Security Guard = The Server" +
+                            "Inside your door, there's a guard who checks your key every time. But the guard doesn’t have a list of real keys; instead, they have a special code (a hash of your password) to check against." +
+                            "🛠️ What Happens When You Try to Enter:" +
+                            "1. You walk to the door and insert your key (you type your password)." +
+                            "2. The lock checks if the key fits (the system compares it with the stored hash)." +
+                            "3. If the key fits, the door opens (you are granted access)." +
+                            "4. If not, the door stays locked." +
+                            "🧠 How Do You Stay Safe?" +
+                            "Just like you:" +
+                            "Use a unique and complicated key (strong password)." +
+                            "Change your lock if you think your key was stolen (reset your password)." +
+                            "Install a security alarm (use multi-factor authentication like OTPs or fingerprint).";
+
+                    // Privacy
+                    case "privacy":
+                        return "Okay. Here's a Real-life example:" +
+                            "You go to a clinic and share personal health information. You expect the staff to keep it private and not tell anyone else." +
+                            "🧠 Cyber version:" +
+                            "When you use a social media app, your personal data (location, contacts, habits) should be kept private. But if the app shares or sells your data without your permission, your privacy is being violated.";
+
+
+                    //Cyber Attack
+                    case "cyberattack":
+                        return "Real-life example:" +
+                            "Someone breaks into your office, smashes your computer, and steals important files." +
+                            "A hacker gains access to your company’s server, deletes files, or takes control of your website — that’s a cyber attack. For example, a DDoS attack floods a website with traffic and causes it to crash.🧠 Cyber version:";
+
+
+
+                    default:
+                        return "Could you clarify what you'd like to know more about?";
+                }
+            }
+
             else
             {
                 return "I'm not sure about that, but always be cautious online! 😊\n" +

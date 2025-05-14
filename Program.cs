@@ -4,9 +4,6 @@ using System.Media;
 using System.Threading;
 using ConsoleApp6;
 
-public delegate string ResponseDelegate(string question);
-
-
 internal class Program
 {
     public static void Main(string[] args)
@@ -49,7 +46,8 @@ internal class Program
 
 
 
-        ResponseDelegate responseHandler = CyberSecurityResponses.GetAnswer;
+        
+
 
 
         while (true)  // Main Menu Loop
@@ -85,6 +83,8 @@ internal class Program
             {
                 Console.WriteLine($"\nHow may I assist you? (Type 'exit' to return to the main menu)");
 
+                string lastTopic = null;
+
                 while (true)
                 {
                     Console.Write($"{name}: ");
@@ -96,7 +96,7 @@ internal class Program
                         break;
                     }
 
-                    string response = responseHandler(question);
+                    string response = CyberSecurityResponses.GetAnswer(question, ref lastTopic);
                     SimulateTyping(response);
                 }
             }
